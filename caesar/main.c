@@ -1,11 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdint.h>
 #include <ctype.h>
 
+// Using intmax_t so that if someone is using an absurdly large shift, it'll still work.
 void print_usage(void);
-void caesar_encrypt(char*,int);
-void caesar_decrypt(char*,int);
+void caesar_encrypt(char*,intmax_t);
+void caesar_decrypt(char*,intmax_t);
 
 int main(int argc, char *argv[])
 {
@@ -21,7 +23,7 @@ int main(int argc, char *argv[])
     }
 
     // Check to see if a shift was specifed (if not, use default of 3).
-    int shift = abs(argc == 4 ? atoi(argv[3]) : 3);
+    intmax_t shift = abs(argc == 4 ? atoi(argv[3]) : 3);
 
     // Encrypt/Decrypt text using shift.
     if (strcmp(argv[1], "encrypt") == 0) {
@@ -39,9 +41,9 @@ void print_usage(void)
     printf("./caesar [encrypt/decrypt] [text] [shift (default: 3)]\n");
 }
 
-void caesar_encrypt(char *plain_text, int shift)
+void caesar_encrypt(char *plain_text, intmax_t shift)
 {
-    int len = strlen(plain_text);
+    intmax_t len = strlen(plain_text);
     char cipher_text[len];
     for (size_t i = 0; i < strlen(plain_text); i++) {
         // If the user provides anything other than an alphabet.
@@ -53,7 +55,7 @@ void caesar_encrypt(char *plain_text, int shift)
         // E(x) = (x + n) mod 26. Keeping ASCII in mind, we have to sub 96 then add it.
         // Where E -> Encryption, x -> plain text, n -> shift.
         char letter = plain_text[i] - 96;
-        char x_plus_n = letter + shift;
+        intmax_t x_plus_n = letter + shift;
 
         // If (x + n) is not in the range 0 - 25, it must be brought back into it.
         while (x_plus_n > 26) {
@@ -70,9 +72,9 @@ void caesar_encrypt(char *plain_text, int shift)
     printf("%s -> %s\n", plain_text, cipher_text);
 }
 
-void caesar_decrypt(char *cipher_text, int shift)
+void caesar_decrypt(char *cipher_text, intmax_t shift)
 {
-    int len = strlen(cipher_text);
+    intmax_t len = strlen(cipher_text);
     char plain_text[len];
     for (size_t i = 0; i < strlen(cipher_text); i++) {
         // If the user provides anything other than an alphabet.
@@ -84,7 +86,7 @@ void caesar_decrypt(char *cipher_text, int shift)
         // D(x) = (x + n) mod 26. Keeping ASCII in mind, we have to sub 96 then add it.
         // Where E -> Decryption, x -> cipher text, n -> shift.
         char letter = cipher_text[i] - 96;
-        char x_minus_n = letter - shift;
+        intmax_t x_minus_n = letter - shift;
 
         // If (x - n) is not in the range 0 - 25, it must be brought back into it.
         while (x_minus_n > 26) {
