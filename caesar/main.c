@@ -52,12 +52,12 @@ void caesar_encrypt(char *plain_text, intmax_t shift)
             continue;
         }
 
-        // E(x) = (x + n) mod 26. Keeping ASCII in mind, we have to sub 96 then add it.
-        // Where E -> Encryption, x -> plain text, n -> shift.
+        // E(X) = (X + N) mod 26. Keeping ASCII in mind, we have to sub 96 then add it.
+        // Where E -> Encryption, X -> Plain Text, N -> Shift.
         char letter = plain_text[i] - 96;
         intmax_t x_plus_n = letter + shift;
 
-        // If (x + n) is not in the range 0 - 25, it must be brought back into it.
+        // If (X + N) is not in the range 0 - 25, it must be brought back into it.
         while (x_plus_n > 26) {
             x_plus_n -= 26;
         }
@@ -83,12 +83,12 @@ void caesar_decrypt(char *cipher_text, intmax_t shift)
             continue;
         }
 
-        // D(x) = (x + n) mod 26. Keeping ASCII in mind, we have to sub 96 then add it.
-        // Where E -> Decryption, x -> cipher text, n -> shift.
+        // D(X) = (X - N) mod 26. Keeping ASCII in mind, we have to sub 96 then add it.
+        // Where E -> Decryption, X -> Cipher Text, N -> Shift.
         char letter = cipher_text[i] - 96;
         intmax_t x_minus_n = letter - shift;
 
-        // If (x - n) is not in the range 0 - 25, it must be brought back into it.
+        // If (X - N) is not in the range 0 - 25, it must be brought back into it.
         while (x_minus_n > 26) {
             x_minus_n -= 26;
         }
