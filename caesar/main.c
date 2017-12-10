@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
     // Encrypt/Decrypt text using shift.
     if (strcmp(argv[1], "encrypt") == 0) {
         caesar_encrypt(argv[2], shift);
-    } else if (strcmp(argv[1], "decrypt") == 0) {
+    } else {
         caesar_decrypt(argv[2], shift);
     }
     return EXIT_SUCCESS;
